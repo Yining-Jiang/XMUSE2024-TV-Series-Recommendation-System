@@ -1,2 +1,9 @@
 # XMUSE2024-TV-Series-Recommendation-System
-XMUSE2024-TV Series Recommendation System
+
+## Group Members
+| 姓名 | 学号 |
+| ------- | ------- |
+|     蒋怡宁    |    22920212204109     |
+|     张瑞龙    |    22920212204294     |
+|     朱睿瑞    |    22920212204335     |
+|     董梅    |    36720212204617     |
