@@ -1,0 +1,8 @@
+django==2.2.10
+django-simpleui==2.1
+djangorestframework==3.9.1
+#pyspark==2.4.5
+#pandas==1.0.3
+beautifulsoup4==4.12.2
+numpy==1.24.4
+wheel==0.41.2

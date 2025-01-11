@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block main_content %}
+    <div class="wrap-content">
+        <div class="teleplay">
+            <div class="title">
+                <center><h2>{{ title }}</h2>
+                    <form method="post" action="{% url 'index' %}" class="form-inline" style="display:inline;float: right; margin-top: 10px; margin-right: 15px">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <select onchange="this.form.submit()" name="order">
+                                <option value="nums" id="nums" disabled selected>最多点击</option>
+                                <option value="collect" id="collect">最多收藏</option>
+                                <option value="rate" id="rate">评分排序</option>
+                                <!-- <option value="years" id="years">时间排序</option>-->
+                            </select>
+                        </div>
+                    </form>
+                </center>
+            </div>
+            <div class="row">
+                {% for teleplay in teleplays %}
+                    <div class="col-1-4">
+                        <div class="wrap-col">
+                            <div class="post">
+                                <div class="view effect">
+                                    <img class="thumb" src="{{ MEDIA_URL }}{{ teleplay.image_link }}"/>
+                                    <div class="mask">
+                                        <a href="{% url 'teleplay' teleplay.id %}" class="info" title="Full Image"><img src="{{ MEDIA_URL }}{{ teleplay.image_link }}"/></a>
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <a href="{% url 'teleplay' teleplay.id %}"><h3>{{ teleplay.name }}</h3></a>
+                                <span>{{ teleplay.years }}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row" align="center">
+                {% if teleplays.has_other_pages %}
+                    <ul class="pagination bg-yellow">
+                        {% if teleplays.has_previous %}
+                            <li><a href="?page={{ teleplays.previous_page_number }}">上一页</a></li>
+                        {% else %}
+                            <li class="disabled"><span>&laquo;</span></li>
+                        {% endif %}
+                        {% for l in  teleplays.paginator.page_range %}
+                            {% if l <= teleplays.number|add:5 and l >= teleplays.number|add:-5 %}
+                                {% if teleplays.number == l %}
+                                    <li class="active"><span>{{ l }} <span class="sr-only">(current)</span></span></li>
+                                {% else %}
+                                    <li><a href="?page={{ forloop.counter }}">{{ forloop.counter }}</a></li>
+                                {% endif %}
+                            {% endif %}
+                        {% endfor %}
+                        <li class="item"><a href="#">
+                            {{ teleplays.number }}/{{ teleplays.paginator.num_pages }}</a>
+                        </li>
+                        {% if teleplays.has_next %}
+                            <li><a href="?page={{ teleplays.next_page_number }}">下一页</a></li>
+                        {% else %}
+                            <li class="disabled"><span>&raquo;</span></li>
+                        {% endif %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block bottom-js %}
+    <script>
+        $('option').removeAttr('disabled').removeAttr('selected');
+        var title = "{{ title }}";
+        if (title === "评分排序") {
+            $('#rate').attr('disabled',true).attr('selected',true);
+        } else if (title === '收藏排序') {
+            $('#collect').attr('disabled',true).attr('selected',true);
+        } else if (title === '时间排序') {
+            $('#years').attr('disabled',true).attr('selected',true);
+        }
+
+
+    </script>
+
+{% endblock %}
